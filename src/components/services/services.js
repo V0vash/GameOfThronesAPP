@@ -22,12 +22,14 @@ export default class Service{
         return this.getResource(`/books/${id}/`);
     }
     
-    getAllCharacters() {
-        return this.getResource(`/characters?page=5&pageSize=10`);
+    async getAllCharacters() {
+        const result = await this.getResource(`/characters?page=5&pageSize=10`);
+        return result.map(this._transformChar);
     }
     
-    getCharacter (id) {
-        return this.getResource(`/characters/${id}`);
+    async getCharacter (id) {
+        const character = await this.getResource(`/characters/${id}`);
+        return this._transformChar(character);
     }
     
     getAllHouses() {
@@ -36,5 +38,15 @@ export default class Service{
     
     getHouse(id) {
         return this.getResource(`/houses/${id}/`);
+    }
+
+    _transformChar(char){
+        return{
+            name: char.name,
+            gender: char.gender,
+            born: char.born,
+            died: char.died,
+            culture: char.culture
+        }
     }
 }
