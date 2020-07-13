@@ -40,13 +40,20 @@ export default class Service{
         return this.getResource(`/houses/${id}/`);
     }
 
+    isSet(data){
+        if(data){
+            return data
+        }else {
+            return 'No info '
+        }
+    }
     _transformChar(char){
         return{
-            name: char.name,
-            gender: char.gender,
-            born: char.born,
-            died: char.died,
-            culture: char.culture
+            name: this.isSet(char.name),
+            gender: this.isSet(char.gender),
+            born: this.isSet(char.born),
+            died: this.isSet(char.died),
+            culture: this.isSet(char.culture)
         }
     }
 }
