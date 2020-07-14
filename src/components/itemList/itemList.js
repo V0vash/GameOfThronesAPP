@@ -1,30 +1,30 @@
 import React, {Component} from 'react';
-import Service from '../../components/services/services';
 import './itemList.css';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
+
 export default class ItemList extends Component {
 
-    service = new Service();
-
     state = {
-        charList: null,
+        itemList: null,
         loading: true,
         error: false
     }
 
     componentDidMount(){
-        this.service.getAllCharacters()
-            .then( (charList) =>{
+        const {getData} = this.props;
+
+        getData()
+            .then( (itemList) =>{
                 this.setState ({
-                    charList,
+                    itemList,
                     loading: false,
                     error: false
                 });
             })
             .catch(() => {
                 this.setState({
-                    charList: null,
+                    itemList: null,
                     error: true,
                     loading: false
                 });
@@ -33,7 +33,7 @@ export default class ItemList extends Component {
 
     componentDidCatch(){
         this.setState({
-            charList: null,
+            itemList: null,
             error: true,
             loading: false
         })
@@ -41,21 +41,21 @@ export default class ItemList extends Component {
 
     renderItems(arr) {
         return arr.map((item) => {
-            const {id, name} = item;
+            const {id} = item;
+            // console.log('props',this.props.renderItem(item));
+            const label = this.props.renderItem(item);
             return(
                 <li 
                     key = {id}
                     className="list-group-item"
                     onClick = {() => this.props.onCharSelected(id)}>
-                    {name}
+                    {label}
                 </li>
             )
         })
     }
 
     render() {
-
-        console.log(this.state.error)
 
         if (this.state.error) {
             return (
@@ -73,9 +73,11 @@ export default class ItemList extends Component {
             )
         }
 
-        const {charList} = this.state;
+        const {itemList} = this.state;
 
-        const items = this.renderItems(charList)
+        const items = this.renderItems(itemList)
+
+        console.log(itemList)
 
         return (
             <ul className="item-list list-group">

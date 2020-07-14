@@ -6,6 +6,10 @@ import CharPage from '../characterPage';
 import ErrorMessage from '../errorMessage';
 import './app.css';
 
+import ItemList from '../itemList';
+import CharDetails from '../charDetails';
+import Service from '../services/services';
+
 
 export default class App extends Component {
     constructor(props){
@@ -31,6 +35,8 @@ export default class App extends Component {
         });
     };
 
+    service = new Service();
+
     render(){
     const randomChar = this.state.showRandomChar ? <RandomChar/> : null;
 
@@ -55,6 +61,28 @@ export default class App extends Component {
                         </Col>
                     </Row>
                     <CharPage/>
+                    <Row>
+                        <Col md='6'>
+                            <ItemList 
+                            onCharSelected={this.onCharSelected}
+                            getData={this.service.getAllBooks}
+                            renderItem={(item) => `${item.name} (book)`} />
+                        </Col>
+                        <Col md='6'>
+                            <CharDetails charId={this.state.selectedChar}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md='6'>
+                            <ItemList 
+                            onCharSelected={this.onCharSelected}
+                            getData={this.service.getAllHouses}
+                            renderItem={(item) => `${item.name} (house)`} />
+                        </Col>
+                        <Col md='6'>
+                            <CharDetails charId={this.state.selectedChar}/>
+                        </Col>
+                    </Row>
                 </Container>
             </>
         );
