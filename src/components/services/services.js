@@ -24,7 +24,8 @@ export default class Service{
     
     async getAllCharacters() {
         const result = await this.getResource(`/characters?page=5&pageSize=10`);
-        return result.map(this._transformChar);
+        // return result;
+        return result.map(this._transformChar)
     }
     
     async getCharacter (id) {
@@ -47,8 +48,14 @@ export default class Service{
             return 'No info '
         }
     }
-    _transformChar(char){
+
+    _extractId(url){
+        return url.match(/\/([0-9]*)$/)[1];
+    }
+
+    _transformChar = (char) => {
         return{
+            id: this._extractId(char.url),
             name: this.isSet(char.name),
             gender: this.isSet(char.gender),
             born: this.isSet(char.born),
