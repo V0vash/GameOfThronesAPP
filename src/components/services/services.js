@@ -20,7 +20,7 @@ export default class Service{
     }
     
     getBook = async (id) => {
-        const book = this.getResource(`/books/${id}/`);
+        const book = await this.getResource(`/books/${id}/`);
         return this._transformChar(book);
     }
     
@@ -41,7 +41,7 @@ export default class Service{
     }
     
     getHouse = async (id) => {
-        const house = this.getResource(`/houses/${id}/`);
+        const house = await this.getResource(`/houses/${id}/`);
         return this._transformHouse(house);
 
     }
