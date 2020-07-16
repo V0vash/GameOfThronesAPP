@@ -52,7 +52,6 @@ export default class ItemDetails extends Component {
                     loading: false
                 })
             })
-            // this.foo.bar = 0;
     }
 
     render() {
@@ -84,7 +83,6 @@ export default class ItemDetails extends Component {
                 <ul className="list-group list-group-flush">
                     {
                         React.Children.map(this.props.children, (child) => {
-                            console.log(child, {item});
                             return React.cloneElement(child, {item});
                         })
                     }
